@@ -1,34 +1,38 @@
 package com.blogs.model;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Getter 
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name="users")
 public class User {
-	private Integer id;
-	private String username;
-	private String name;
-	private Date dateOfBirth;
-	private Integer sex;
-	private RoleEnum role;
-
-	public User() {
-		super();
-	}
-
 	public User(String username, String name, Integer sex) {
 		super();
 		this.username = username;
@@ -36,60 +40,53 @@ public class User {
 		this.sex = sex;
 	}
 	
-	@Temporal(TemporalType.DATE) 
-	@NotNull 
-	@Column
-	public Date getDateOfBirth() {
-		return dateOfBirth;
-	}
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public Integer getId() {
-		return id;
-	}
+	private Integer id;
 	
-	@Column(name = "username", length = 50)
-	@NotNull
-	public String getUsername() {
-		return username;
-	}
+	@Column(name = "username", nullable = false, length = 50)
+	private String username;
 	
-	@Column(name = "name", length = 50)
-	@NotNull
-	public String getName() {
-		return name;
-	}
+	@Column(name = "name", nullable = false, length = 50)
+	private String name;
+	
+	@Temporal(TemporalType.DATE) 
+	@Column
+	private Date dateOfBirth;
 	
 	@Column(name = "sex")
-	public Integer getSex() {
-		return sex;
-	}
+	private Integer sex;
 	
 	@Column(name = "role")
 	@Enumerated(EnumType.STRING)
-	public RoleEnum getRole() {
-		return role;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public void setSex(Integer sex) {
-		this.sex = sex;
-	}
-	public void setDateOfBirth(Date dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
-	public void setRole(RoleEnum role) {
-		this.role = role;
-	}
-
+	private RoleEnum role = RoleEnum.USER;
+	
+	// 1 user many post 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
+	private Set<Post> listPost = new HashSet<Post>();
+	
+	// 1 user follow many other_user
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "relationship",
+		joinColumns = @JoinColumn(name = "follower_id", referencedColumnName="id"),
+		inverseJoinColumns = @JoinColumn(name = "followed_id")
+	)
+	private List<User> followeds; //people i follow 
+	
+	// many_user follow 1 user
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "followeds")
+	private List<User> followers; // people follow me
+	
+	// 1 user like many post
+	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "like_users")
+	private List<Post> like_posts;
+	
+	// 1 user have many comment
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "commentator")
+	private List<Comment> comments;
+	
+	// 1 user have many notification
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "receiver")
+	private List<Notification> notifications;
+	
 }
-
