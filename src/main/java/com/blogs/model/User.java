@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,9 +18,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import com.blogs.validator.UniqueEmail;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -61,6 +66,19 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private RoleEnum role = RoleEnum.USER;
 	
+	@Column(name = "email", nullable = false, unique = true)
+	@UniqueEmail(message = "{user.email.is.exist}")
+	private String email;
+	
+	@Column(name="password", nullable = false)
+	private String password;
+	
+	@Transient
+	private String retypePassword;
+	
+	@Column(name="isConfirmed")
+	private boolean isConfirmed = false;
+	
 	// 1 user many post 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
 	private Set<Post> listPost = new HashSet<Post>();
@@ -88,5 +106,9 @@ public class User {
 	// 1 user have many notification
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "receiver")
 	private List<Notification> notifications;
+	
+	// 1 verification token
+	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = {CascadeType.REMOVE})
+	private VerificationToken token;
 	
 }

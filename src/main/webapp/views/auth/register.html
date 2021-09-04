@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+    <title>Blogs - Register</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/root.css}"/>
+  </head>
+
+  <body>
+
+    <h2>Register a new account</h2>
+
+    <form th:object="${new_user}" th:action="@{/register}" method="post">
+		<!-- field username -->
+        <div>
+          	<label for="username">username : </label>
+          	<input type="text" th:field="*{username}" 
+          	th:class="${#fields.hasErrors('username')}? fieldErrors"/>
+			<div 
+				th:each="err : ${#fields.errors('username')}" 
+				th:text="${err}" 
+				th:class="errorClass"
+			/>
+        </div>
+        
+        <!-- field email -->
+        <div>
+          	<label for="email">email : </label>
+          	<input type="text" th:field="*{email}" 
+          	th:class="${#fields.hasErrors('email')}? fieldErrors"/>
+			<div 
+				th:each="err : ${#fields.errors('email')}" 
+				th:text="${err}" 
+				th:class="errorClass"
+			/>
+        </div>
+        
+        <!--  password -->
+        <div>
+          	<label for="password">password : </label>
+          	<input type="text" th:field="*{password}" 
+          	th:class="${#fields.hasErrors('password')}? fieldErrors"/>
+			<div 
+				th:each="err : ${#fields.errors('password')}" 
+				th:text="${err}" 
+				th:class="errorClass"
+			/>
+        </div>
+        
+        <!-- field confirm password -->
+        <div>
+          	<label for="retypePassword">retype password : </label>
+          	<input type="text" th:field="*{retypePassword}" 
+          	th:class="${#fields.hasErrors('retypePassword')}? fieldErrors"/>
+			<div 
+				th:each="err : ${#fields.errors('retypePassword')}" 
+				th:text="${err}" 
+				th:class="errorClass"
+			/>
+        </div>
+        
+        <!-- field name -->
+        <div>
+          <label for="name">name: </label>
+          <input type="text" th:field="*{name}" 
+          th:class="${#fields.hasErrors('name')}? fieldErrors"/>
+          <div
+          		th:each="err : ${#fields.errors('name')}"
+          		th:text="${err}"
+          		th:class="errorClass"
+          />
+        </div>
+        
+        <!-- field date of birth -->
+        <div>
+          <label for="dateOfBirth">dateOfBirth: </label>
+          <input type="date" th:field="*{dateOfBirth}"/>
+          <div
+          		th:each="err : ${#fields.errors('dateOfBirth')}"
+          		th:text="${err}"
+          		th:class="errorClass"
+          />
+        </div>
+		<!-- field sex -->
+        <div>
+          <label for="sex">sex: </label>
+          <input type="radio" th:field="*{sex}" value="0"/>
+          <label>Nu</label><br>
+          <input type="radio" th:field="*{sex}" value="1"/>
+          <label>Nam</label>
+        </div>
+		<!-- field role -->
+		<div>
+			<label for="sex">role: </label>
+			<select th:field="*{role}">
+				<option th:each = "type : ${T(com.blogs.model.RoleEnum).values()}" 
+				th:value="${type}" th:text="${type}"/>
+			</select>
+		</div>
+
+        <div class="submit">
+          <button type="submit">Register</button>
+        </div>
+
+
+    </form>
+
+  </body>
+
+</html>

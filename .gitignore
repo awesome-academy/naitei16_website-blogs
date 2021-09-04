@@ -22,5 +22,8 @@
 # not push target folder
 target/
 
+src/main/resources/mailsender.properties
+src/main/resources/datasources.properties
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*

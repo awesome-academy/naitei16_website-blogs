@@ -7,5 +7,10 @@
 	<bean id="userDAO" class="com.blogs.daoimpl.UserDAOImpl">
 		<property name="sessionFactory" ref="sessionFactory" />
 	</bean>
+	
+	<bean id="tokenDAO" class="com.blogs.daoimpl.VerificationTokenDAOImpl">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
 </beans>
 
