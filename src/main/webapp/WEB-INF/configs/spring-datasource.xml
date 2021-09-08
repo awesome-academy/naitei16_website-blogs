@@ -11,8 +11,6 @@
 	<tx:annotation-driven proxy-target-class="true"
 		transaction-manager="transactionManager" />
 
-	<context:property-placeholder location="classpath:datasources.properties" />
-
 	<bean id="dataSource"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${mysql.driver}" />
@@ -34,9 +32,10 @@
 				<prop key="hibernate.c3p0.max_size">150</prop>
 				<prop key="hibernate.c3p0.max_statements">300</prop>
 				<prop key="hibernate.c3p0.timeout">1800</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<prop key="javax.persistence.validation.mode">none</prop>
 			</props>
 		</property>
 		
