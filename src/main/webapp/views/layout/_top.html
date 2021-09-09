@@ -1,0 +1,21 @@
+<div style="border: 1px solid #ccc; padding: 5px; margin-bottom: 20px;"
+	th:fragment="frag-top">
+
+	<ul>
+		<!-- th:with="isLogined = ${#authentication} ? 
+		${#authorization.expression('isAuthenticated()')} : ${false}">  -->
+		
+		<li><a th:href="@{/}">Home</a></li>
+
+		<div sec:authorize="isAuthenticated()">
+			<li><a th:href="@{/userInfo}">view user info</a></li>
+			<li><a th:href="@{/newpost}">write a new post</a></li>
+			<li><a th:href="@{/logout}">logout</a></li>
+		</div>
+		
+		<div sec:authorize="isAnonymous()">
+			<li><a th:href="@{/register}">register</a></li>
+			<li><a th:href="@{/login}">login</a></li>
+		</div>
+	</ul>
+</div>
