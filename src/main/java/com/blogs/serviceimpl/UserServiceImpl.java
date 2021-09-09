@@ -104,5 +104,14 @@ public class UserServiceImpl implements UserService {
 			throw e;
 		}
 	}
+
+	@Override
+	public User findUserByUsername(String username) {
+		try {
+			return userDAO.findUserByUsername(username);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	
 }

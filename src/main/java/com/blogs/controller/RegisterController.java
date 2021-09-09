@@ -59,6 +59,9 @@ public class RegisterController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ModelAndView register() {
+		if (ControllerUtils.isLogined()) {
+			return new ModelAndView("redirect:/");
+		}
 		return new ModelAndView("auth/register", "new_user", new User());
 	}
 
@@ -86,7 +89,7 @@ public class RegisterController {
 					ControllerUtils.baseUrlOf(request) + request.getContextPath(), tokenObj));
 		}
 
-		return new ModelAndView("users/index", "user", new_user);
+		return new ModelAndView("auth/alertPage", "message", "go to email to active account.");
 	}
 
 	@GetMapping("/regitrationConfirm")
@@ -95,21 +98,24 @@ public class RegisterController {
 		VerificationToken verificationToken = userService.getVerificationToken(token);
 		if (verificationToken == null) {
 			model.addAttribute("message", "auth.message.token.not.true");
-			return "auth/badUser";
+			return "auth/alertPage";
 		}
 
 		User user = verificationToken.getUser();
 		Calendar cal = Calendar.getInstance();
 		if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
 			model.addAttribute("message", "auth.message.expired");
-			return "auth/badUser";
+			return "auth/alertPage";
 		}
 
 		user.setConfirmed(true);
 		if (userService.updateSuccessStateRegistationUser(user, verificationToken)) {
 			logger.info("verify by email success. ");
+			model.addAttribute("message", "verify by email success. ");
+			return "auth/login";
 		}
-
-		return "auth/login";
+		
+		model.addAttribute("message", "something wrong. ");
+		return "auth/alertPage";
 	}
 }
