@@ -1,0 +1,26 @@
+<div style="border: 1px solid #ccc; padding: 5px; margin-bottom: 20px;" th:fragment="user-follow">
+	<table th:if="${user.Followeds}">
+		<thead>Những người 
+		 	<span th:text="${user.name}">name</span> theo dõi
+			<span th:text="${user.followeds.size()}" class = "numOfFollow">0</span>
+			</thead>
+		<tbody>
+			<tr th:each="_user : ${user.followeds}">
+				<td th:text="${_user.name}">id</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<table th:if="${user.Followers}">
+	<thead>Những người theo dõi 
+		<span th:text="${user.name}">name</span> 
+		<span th:text="${user.followers.size()}" class = "numOfFollow">0</span>
+	</thead>
+		<tbody>
+			<tr th:each="_user : ${user.followers}">
+				<td th:text="${_user.name}">id</td>
+			</tr>
+		</tbody>
+	</table>
+	
+</div>

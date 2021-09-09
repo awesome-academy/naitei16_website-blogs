@@ -106,12 +106,40 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User findUserByUsername(String username) {
+	public User findUserByUsername(String username, boolean getDetail) {
 		try {
-			return userDAO.findUserByUsername(username);
+			// one query to get form users table
+			User user = userDAO.findUserByUsername(username);
+			// one query to get all of post (not contain content of post)
+			// one query to get follower
+			// one query to get followed
+			if(getDetail) {
+				System.out.print(user.getListPost());
+				System.out.print(user.getFolloweds());
+				System.out.print(user.getFollowers());
+			}
+			return user;
 		} catch (Exception e) {
 			return null;
 		}
 	}
+
+	@Override
+	public boolean updateFollowUser(Integer follower_id, Integer followed_id, String type) {
+		try {
+			return userDAO.updateFollowUser(follower_id, followed_id, type);
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 	
+	@Override
+	public Boolean checkUserFollowUser(Integer follower_id, Integer followed_id) {
+		try {
+			return userDAO.checkUserFollowUser(follower_id, followed_id);
+		} catch (Exception e) {
+			logger.info(e);
+			return false;
+		}
+	}
 }

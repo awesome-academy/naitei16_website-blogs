@@ -1,0 +1,11 @@
+<div style="border: 1px solid #ccc; padding: 5px; margin-bottom: 20px;" th:fragment="user-post">
+	<table th:fra th:if="${user.listPost}">
+		<tbody>
+			<tr th:each="post : ${user.listPost}">
+				<td th:text="${post.id}">id</td>
+				<td th:text="${post.title}">title</td>
+				<td th:text="${post.createdAt}">create time</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

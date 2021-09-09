@@ -1,16 +1,33 @@
 <html>
 <head>
 <title>User Info</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/assets/css/userTag.css?version=51}">
 </head>
 <body>
 	<div th:replace="layout/_top::frag-top"></div>
-     
-    <h2>User Info Page</h2>
- 
-    <h3 th:text="${userName}"></h3>
- 
-    <b>This is protected page!</b>  
-    
-    <div th:replace="layout/_bottom::frag-bottom"></div>
+
+	<div th:replace="users/_userTag::user-tag"></div>
+
+	<h2>User Info Page</h2>
+	<b>This is protected page!</b>
+
+	<div th:replace="users/_userPost::user-post"></div>
+	
+	<div th:replace="users/_userFollow::user-follow"></div>
+
+	<div th:replace="layout/_bottom::frag-bottom"></div>
+
+	<script type="text/javascript" th:src="@{/assets/js/jquery-3.6.0.js}"></script>
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+			var link = /*[[@{/api/follow}]]*/'';
+			var hasFollowed = /*[[${hasFollowed}]]*/'';		
+		/*]]>*/
+	</script>
+	<script type="text/javascript" th:src="@{/assets/js/follow.js}">
+	</script>
 </body>
 </html>
