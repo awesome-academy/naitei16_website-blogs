@@ -40,12 +40,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 
 		// Các trang không yêu cầu login
-		http.authorizeRequests().antMatchers("/", "/register", "/login").permitAll();
+		http.authorizeRequests().antMatchers("/", 
+				"/register", "/register//regitrationConfirm", "/login",
+				"/userInfo","/viewpost/**"
+		).permitAll();
 
 		http.authorizeRequests().anyRequest().authenticated();
 
 		// Trang /userInfo yêu cầu phải login với vai trò USER hoặc ADMIN.
-		http.authorizeRequests().antMatchers("/userInfo")
+		http.authorizeRequests().antMatchers("/api/follow")
 				.access("hasAnyRole('ROLE_" + RoleEnum.USER + "', 'ROLE_" + RoleEnum.ADMIN + "')");
 
 		http.authorizeRequests().antMatchers("/admin*").access("hasRole('ROLE_" + RoleEnum.ADMIN + "')");

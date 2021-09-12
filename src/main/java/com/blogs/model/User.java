@@ -1,9 +1,8 @@
 package com.blogs.model;
 
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -81,7 +80,7 @@ public class User {
 	
 	// 1 user many post 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "author")
-	private Set<Post> listPost = new HashSet<Post>();
+	private List<Post> listPost = new  ArrayList<Post>();
 	
 	// 1 user follow many other_user
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -108,7 +107,7 @@ public class User {
 	private List<Notification> notifications;
 	
 	// 1 verification token
-	@OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = {CascadeType.REMOVE})
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "user", cascade = {CascadeType.REMOVE})
 	private VerificationToken token;
 	
 }

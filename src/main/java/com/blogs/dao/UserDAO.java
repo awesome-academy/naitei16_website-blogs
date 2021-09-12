@@ -9,5 +9,7 @@ public interface UserDAO extends IGenericDAO<Integer, User> {
 	boolean updateSuccessStateRegistationUser(User user, VerificationToken token);
 	boolean createNewUser(User st, VerificationToken token);
 	User findUserByUsername(String username);
-	
+	boolean updateFollowUser(Integer follower_id, Integer followed_id, String type);
+	boolean checkUserFollowUser(Integer follower_id, Integer followed_id);
+
 }
