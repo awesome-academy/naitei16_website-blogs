@@ -1,0 +1,22 @@
+<div style="border: 1px solid #ccc; padding: 5px; margin-bottom: 20px;" th:fragment="user-tag">
+
+	<div id="gradient"></div>
+	
+	<div id="card" th:if="${user}">
+		<img th:src="@{/assets/image/user.png}" />
+		<h2 th:text="${user.username}">username</h2>
+		<p th:text="${user.name}">name</p> 
+		<span th:text="${user.email}" class="right bottom">email</span>
+		<form class="actions" th:if="${#authentication}" id="follow-form">
+			<div th:if="${#authentication.getPrincipal().getId()!=user.id}">
+				<input type='text' name='follower_id' class="displayNone" id="follower_id"
+					th:value='${#authentication.getPrincipal().getId()}'> 
+				<input type='password' name='followed_id' class="displayNone" id="followed_id" 
+					th:value="${user.id}" />
+				<button class="btn" id="btn-follow" type="submit">Follow</button>
+			</div>
+		</form>
+		
+	</div>
+</div>
+</div>

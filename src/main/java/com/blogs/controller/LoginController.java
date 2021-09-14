@@ -29,14 +29,8 @@ public class LoginController {
 	}
 
 	@RequestMapping(value = "/userInfo", method = RequestMethod.GET)
-	public ModelAndView userInfo(Principal principal) {
-
-		// Sau khi user login thanh cong se co principal
-		String username = principal.getName();
-
-		ModelAndView model = new ModelAndView("users/userInfoPage");
-		model.addObject("userName", username);
-		return model;
+	public String userInfo(Principal principal) {
+		return "redirect:/u/"+principal.getName();
 	}
 
 	@RequestMapping(value = "/access_denied", method = RequestMethod.GET)

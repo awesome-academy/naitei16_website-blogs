@@ -1,5 +1,7 @@
 package com.blogs.daoimpl;
 
+import java.math.BigInteger;
+
 import org.hibernate.query.Query;
 
 import com.blogs.dao.GenericDAO;
@@ -40,6 +42,33 @@ public class UserDAOImpl extends GenericDAO<Integer, User> implements UserDAO {
 		Query query = getSession().createQuery(hql);
 		query.setParameter("username", username);
 		return (User) query.uniqueResult();
+	}
+
+	@Override
+	public boolean updateFollowUser(Integer follower_id, Integer followed_id, String type) {
+		if(type.equals("Follow")) {
+			String sql = "insert into relationship(follower_id, followed_id) values('"+follower_id+"','"+followed_id+"')";
+			getSession().createSQLQuery(sql).executeUpdate();
+			return true;
+		}
+		if(type.equals("Unfollow")) {
+			String sql = "DELETE FROM relationship WHERE (follower_id='"+follower_id+"' AND followed_id='"+followed_id+"')";
+			getSession().createSQLQuery(sql).executeUpdate();
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean checkUserFollowUser(Integer follower_id, Integer followed_id) {
+		String sql = "select count(*) from relationship WHERE (follower_id='"+follower_id+"' AND followed_id='"+followed_id+"')";
+		Object result = getSession().createSQLQuery(sql).uniqueResult();
+		if(result==null) {
+			logger.info("result query is null");
+			return false;
+		}
+		logger.info(((BigInteger) result).intValue());
+		return ((BigInteger) result).intValue() != 0;
 	}
 
 }

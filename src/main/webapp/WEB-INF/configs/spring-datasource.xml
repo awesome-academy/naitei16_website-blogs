@@ -32,7 +32,11 @@
 				<prop key="hibernate.c3p0.max_size">150</prop>
 				<prop key="hibernate.c3p0.max_statements">300</prop>
 				<prop key="hibernate.c3p0.timeout">1800</prop>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.hbm2ddl.auto">none</prop>
+				<!-- 
+				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.import_files">sql/createdb.sql</prop>
+				 -->
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
 				<prop key="javax.persistence.validation.mode">none</prop>
