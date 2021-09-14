@@ -5,6 +5,11 @@
 <title>Insert title here</title>
 </head>
 <body>
-	hello an !
+	<div th:replace="layout/_top::frag-top"></div>
+	<h1>Home page</h1>
+	<div th:text="${#authentication}">The value
+		of the "name" property of the authentication object should appear
+		here.</div>
+	<div th:replace="layout/_bottom::frag-bottom"></div>
 </body>
 </html>

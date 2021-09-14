@@ -34,4 +34,12 @@ public class UserDAOImpl extends GenericDAO<Integer, User> implements UserDAO {
 		return true;
 	}
 
+	@Override
+	public User findUserByUsername(String username) {
+		String hql = "FROM User U WHERE U.username = :username";
+		Query query = getSession().createQuery(hql);
+		query.setParameter("username", username);
+		return (User) query.uniqueResult();
+	}
+
 }
